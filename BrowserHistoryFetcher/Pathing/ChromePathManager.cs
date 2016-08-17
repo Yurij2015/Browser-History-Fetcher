@@ -7,7 +7,7 @@ using BrowserHistoryFetcher.Enums;
 
 namespace BrowserHistoryFetcher.Pathing
 {
-    public class ChromePathManager : IBrowserInfo
+    internal class ChromePathManager : IBrowserInfo
     {
         private readonly static string WIN_7_8_10_HISTORY_PATH = String.Format("{0}\\Google\\Chrome\\User Data\\Default\\History",
                                                             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
@@ -21,11 +21,6 @@ namespace BrowserHistoryFetcher.Pathing
         public string GetHistoryPath()
         {
             return WIN_7_8_10_HISTORY_PATH;
-        }
-
-        public string GetTableName()
-        {
-            return "urls";
         }
     }
 }

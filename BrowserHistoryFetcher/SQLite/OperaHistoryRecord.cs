@@ -9,6 +9,6 @@ namespace BrowserHistoryFetcher.SQLite
     public class OperaHistoryRecord : HistoryRecordBase
     {
         public long typed_count { get; internal set; }
-        public string last_visit_time { get; internal set; }
+        public long last_visit_time { get; internal set; }
     }
 }

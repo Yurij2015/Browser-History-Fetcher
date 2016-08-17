@@ -1,4 +1,5 @@
 ﻿using BrowserHistoryFetcher.Enums;
+using BrowserHistoryFetcher.FileSystem;
 using BrowserHistoryFetcher.Pathing;
 using Simple.Data;
 using System;
@@ -15,7 +16,7 @@ namespace BrowserHistoryFetcher.SQLite
         private dynamic _dbTable;
         private IBrowserInfo _browserInfo;
 
-        public SQLiteFetcher()
+        public SQLiteFetcher(string historyFilePath = null)
         {
             if (typeof(T) == typeof(MozillaHistoryRecord))
                 _browserInfo = new MozillaPathManager();
@@ -24,7 +25,8 @@ namespace BrowserHistoryFetcher.SQLite
             else if (typeof(T) == typeof(ChromeHistoryRecord))
                 _browserInfo = new ChromePathManager();
 
-            db = Database.OpenFile(_browserInfo.GetHistoryPath());
+            string historyCopypath = FileManager.CopyFileToTempFolder(historyFilePath ?? _browserInfo.GetHistoryPath());
+            db = Database.OpenFile(historyCopypath);
 
             // Mozilla has diferent table name (moz_places)
             _dbTable = _browserInfo.GetBrowserType() == BrowserEnum.Mozilla ? db.moz_places : db.urls;

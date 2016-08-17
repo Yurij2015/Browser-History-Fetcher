@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BrowserHistoryFetcher.Pathing
 {
-    public class MozillaPathManager : IBrowserInfo
+    internal class MozillaPathManager : IBrowserInfo
     {
         private readonly static string SUB_PATH = String.Format("{0}\\Mozilla\\Firefox\\Profiles",
                                                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
@@ -22,11 +22,6 @@ namespace BrowserHistoryFetcher.Pathing
         public BrowserEnum GetBrowserType()
         {
             return BrowserEnum.Mozilla;
-        }
-
-        public string GetTableName()
-        {
-            return "moz_places";
         }
     }
 }

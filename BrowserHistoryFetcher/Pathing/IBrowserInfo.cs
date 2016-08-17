@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace BrowserHistoryFetcher.Pathing
 {
-    public interface IBrowserInfo
+    internal interface IBrowserInfo
     {
         string GetHistoryPath();
-        string GetTableName();
         BrowserEnum GetBrowserType();
     }
 }

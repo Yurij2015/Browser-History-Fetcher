@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BrowserHistoryFetcher.Enums
 {
-    public enum BrowserEnum
+    internal enum BrowserEnum
     {
         Mozilla     = 1,
         Opera       = 2,

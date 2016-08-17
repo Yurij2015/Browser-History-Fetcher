@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileSystem\FileManager.cs" />
     <Compile Include="Pathing\ChromePathManager.cs" />
     <Compile Include="Pathing\IBrowserInfo.cs" />
     <Compile Include="Enums\BrowserEnum.cs" />
