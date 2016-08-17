@@ -10,10 +10,19 @@ namespace BrowserHistoryFetcherTest
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestFetchAll()
         {
             var fetcher = new SQLiteFetcher<MozillaHistoryRecord>();
             var records = fetcher.FetchAll();
+
+            Assert.IsTrue(records.Count > 0);
+        }
+
+        [TestMethod]
+        public void TestFetchByUrlLike()
+        {
+            var fetcher = new SQLiteFetcher<MozillaHistoryRecord>();
+            var records = fetcher.FetchByUrlLike("youtube");
 
             foreach (var record in records)
             {

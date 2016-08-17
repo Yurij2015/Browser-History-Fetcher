@@ -26,48 +26,34 @@ namespace BrowserHistoryFetcher.SQLite
 
             db = Database.OpenFile(_browserInfo.GetHistoryPath());
 
+            // Mozilla has diferent table name (moz_places)
             _dbTable = _browserInfo.GetBrowserType() == BrowserEnum.Mozilla ? db.moz_places : db.urls;
         }
 
-        /*public IList<T> FetchAll(BrowserEnum browser)
+        public IList<T> FetchByUrlLike(string urlPattern)
         {
             IList<T> resultList = new List<T>();
 
-            dynamic records;
-
-            if (browser == BrowserEnum.Mozilla) // Mozilla has diferent table name (moz_places)
-            {
-                records = db.moz_places.All()
-                        .Select(db.moz_places.url, db.moz_places.visit_count)
-                        .Where(db.moz_places.url.Like(string.Concat("%", "youtube", "%")))
+            dynamic result = _dbTable.All()
+                        .Where(db.moz_places.url.Like(string.Concat("%", urlPattern, "%")))
                         .OrderByDescending(db.moz_places.visit_count);
-            }
-            else
-            {
-                records = db.urls.All()
-                        .Select(db.urls.url, db.urls.visit_count)
-                        .Where(db.urls.url.Like(string.Concat("%", "youtube", "%")))
-                        .OrderByDescending(db.urls.visit_count);
-            }
 
-            foreach (dynamic record in records)
+            foreach (dynamic record in result)
             {
                 T historyRecord = Slapper.AutoMapper.MapDynamic<T>(record) as T;
                 resultList.Add(historyRecord);
             }
 
             return resultList;
-        }*/
+        }
 
         public IList<T> FetchAll()
         {
             IList<T> resultList = new List<T>();
 
-            dynamic records;
+            SimpleQuery query = _dbTable.All();
 
-            records = _dbTable.All();
-
-            foreach (dynamic record in records)
+            foreach (dynamic record in query)
             {
                 T historyRecord = Slapper.AutoMapper.MapDynamic<T>(record) as T;
                 resultList.Add(historyRecord);
