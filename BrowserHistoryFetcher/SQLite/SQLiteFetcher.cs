@@ -37,8 +37,8 @@ namespace BrowserHistoryFetcher.SQLite
             IList<T> resultList = new List<T>();
 
             dynamic result = _dbTable.All()
-                        .Where(db.moz_places.url.Like(string.Concat("%", urlPattern, "%")))
-                        .OrderByDescending(db.moz_places.visit_count);
+                        .Where(_dbTable.url.Like(string.Concat("%", urlPattern, "%")))
+                        .OrderByDescending(_dbTable.visit_count);
 
             foreach (dynamic record in result)
             {
