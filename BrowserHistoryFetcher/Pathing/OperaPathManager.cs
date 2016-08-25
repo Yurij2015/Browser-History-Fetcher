@@ -1,5 +1,4 @@
-﻿using BrowserHistoryFetcher.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,19 +6,17 @@ using System.Threading.Tasks;
 
 namespace BrowserHistoryFetcher.Pathing
 {
-    internal class OperaPathManager : IBrowserInfo
+    internal class OperaPathManager : IHistoryPath
     {
         private readonly static string HISTORY_FILE_PATH = String.Format("{0}\\Opera Software\\Opera Stable\\History",
                                                             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 
-        public string GetHistoryPath()
+        public string HistoryPath
         {
-            return HISTORY_FILE_PATH;
-        }
-
-        public BrowserEnum GetBrowserType()
-        {
-            return BrowserEnum.Opera;
+            get
+            {
+                return HISTORY_FILE_PATH;
+            }
         }
     }
 }
