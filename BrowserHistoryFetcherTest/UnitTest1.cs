@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BrowserHistoryFetcher.SQLite;
-using BrowserHistoryFetcher.Enums;
 using BrowserHistoryFetcher.Pathing;
 using BrowserHistoryFetcher.FileSystem;
+using BrowserHistoryFetcher.SQLite.RecordStructures;
+using BrowserHistoryFetcher.SQLite.Fetchers;
+using System.Linq;
 
 namespace BrowserHistoryFetcherTest
 {
@@ -13,16 +14,14 @@ namespace BrowserHistoryFetcherTest
         [TestMethod]
         public void TestFetchAll()
         {
-            var fetcher = new SQLiteFetcher<OperaHistoryRecord>();
-            var records = fetcher.FetchAll();
-
-            Assert.IsTrue(records.Count > 0);
+            var fetcher = FetcherFactory.Create<OperaHistoryRecord>();
+            var records = fetcher.FetchAll().ToList();
         }
 
         [TestMethod]
         public void TestFetchByUrlLike()
         {
-            var fetcher = new SQLiteFetcher<MozillaHistoryRecord>();
+            var fetcher = new MozillaHistoryFetcher();
             var records = fetcher.FetchByUrlLike("youtube");
 
             foreach (var record in records)
@@ -34,7 +33,7 @@ namespace BrowserHistoryFetcherTest
         [TestMethod]
         public void TestFileCopy()
         {
-            string filePath = new OperaPathManager().GetHistoryPath();
+            string filePath = new OperaPathManager().HistoryPath;
             string copyPath = FileManager.CopyFileToTempFolder(filePath);
             Console.WriteLine(copyPath);
         }
