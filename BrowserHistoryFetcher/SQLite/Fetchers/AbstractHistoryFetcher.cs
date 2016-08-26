@@ -5,6 +5,7 @@ using BrowserHistoryFetcher.SQLite.RecordStructures;
 using Simple.Data;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,8 @@ namespace BrowserHistoryFetcher.SQLite.Fetchers
             catch (Exception ex)
             {
                 _initException = ex;
+                string errorPath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "errors.txt");
+                File.WriteAllText(errorPath, ex.Message);
             }
         }
 
