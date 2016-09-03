@@ -5,6 +5,7 @@ using BrowserHistoryFetcher.FileSystem;
 using BrowserHistoryFetcher.SQLite.RecordStructures;
 using BrowserHistoryFetcher.SQLite.Fetchers;
 using System.Linq;
+using BrowserHistoryFetcher.Enums;
 
 namespace BrowserHistoryFetcherTest
 {
@@ -14,7 +15,7 @@ namespace BrowserHistoryFetcherTest
         [TestMethod]
         public void TestFetchAll()
         {
-            var fetcher = FetcherFactory.Create<OperaHistoryRecord>();
+            var fetcher = FetcherFactory.Create(BrowserEnum.OPERA);
             var records = fetcher.FetchAll().ToList();
         }
 

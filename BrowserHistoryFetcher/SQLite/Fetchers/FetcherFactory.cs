@@ -1,4 +1,5 @@
-﻿using BrowserHistoryFetcher.SQLite;
+﻿using BrowserHistoryFetcher.Enums;
+using BrowserHistoryFetcher.SQLite;
 using BrowserHistoryFetcher.SQLite.Fetchers;
 using BrowserHistoryFetcher.SQLite.RecordStructures;
 using System;
@@ -11,27 +12,19 @@ namespace BrowserHistoryFetcher.SQLite.Fetchers
 {
     public static class FetcherFactory
     {
-        public static IFetchable<HistoryRecordBase> Create<H>() where H : HistoryRecordBase
+        public static IFetchable<HistoryRecordBase> Create(string browserName)
         {
-            IFetchable<HistoryRecordBase> fetcher = null;
-
-            if (typeof(H) == typeof(ChromeHistoryRecord))
+            switch (browserName)
             {
-                fetcher = new ChromeHistoryFetcher().NullFetcherIfFailed;
+                case BrowserEnum.CHROME:
+                    return new ChromeHistoryFetcher().NullFetcherIfFailed;
+                case BrowserEnum.OPERA:
+                    return new OperaHistoryFetcher().NullFetcherIfFailed;
+                case BrowserEnum.MOZILLA:
+                    return new MozillaHistoryFetcher().NullFetcherIfFailed;
+                default:
+                    throw new ArgumentException("Unknown broswer name");
             }
-            else if (typeof(H) == typeof(OperaHistoryRecord))
-            {
-                return new OperaHistoryFetcher().NullFetcherIfFailed;
-            }
-            else if (typeof(H) == typeof(MozillaHistoryRecord))
-            {
-                return new MozillaHistoryFetcher().NullFetcherIfFailed;
-            }
-            else
-            {
-                throw new ArgumentException("Template type not recognized");
-            }
-            return fetcher;
         }
     }
 }

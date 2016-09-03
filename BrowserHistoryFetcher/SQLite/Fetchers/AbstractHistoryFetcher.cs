@@ -1,6 +1,5 @@
 ﻿using BrowserHistoryFetcher.FileSystem;
 using BrowserHistoryFetcher.Pathing;
-using BrowserHistoryFetcher.SQLite.Fetchers;
 using BrowserHistoryFetcher.SQLite.RecordStructures;
 using Simple.Data;
 using System;
@@ -38,7 +37,7 @@ namespace BrowserHistoryFetcher.SQLite.Fetchers
         }
 
         /// <summary>
-        /// Used only by NUll fetchers.
+        /// Used only by Null fetchers.
         /// </summary>
         internal AbstractHistoryFetcher() { }
 
@@ -53,32 +52,16 @@ namespace BrowserHistoryFetcher.SQLite.Fetchers
         {
             IList<T> resultList = new List<T>();
 
-            dynamic result = _dbTable.All()
+            SimpleQuery result = _dbTable.All()
                         .Where(_dbTable.url.Like(string.Concat("%", urlPattern, "%")))
                         .OrderByDescending(_dbTable.visit_count);
 
-            foreach (dynamic record in result)
-            {
-                T historyRecord = Slapper.AutoMapper.MapDynamic<T>(record) as T;
-                resultList.Add(historyRecord);
-            }
-
-            return resultList.ToArray();
+            return result.Cast<T>();
         }
 
         public virtual IEnumerable<T> FetchAll()
         {
-            IList<T> resultList = new List<T>();
-
-            SimpleQuery query = _dbTable.All();
-
-            foreach (dynamic record in query)
-            {
-                T historyRecord = Slapper.AutoMapper.MapDynamic<T>(record) as T;
-                resultList.Add(historyRecord);
-            }
-
-            return resultList.ToArray();
+            return ((SimpleQuery)_dbTable.All()).Cast<T>();
         }
     }
 }
